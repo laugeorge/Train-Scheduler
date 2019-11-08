@@ -29,10 +29,10 @@ var firebaseConfig = {
     // Grabs user input
     var empTrainName = $("#train-name-input").val().trim();
     var empRole = $("#destination-input").val().trim();
-    var empStart = moment($("#trainTime-input").val().trim(), "MM/DD/YYYY").format("X");
+    var empStart = moment($("#trainTime-input").val().trim(), "X").format("HH:mm");
     var empRate = $("#frequency-input").val().trim();
   
-    // Creates local "temporary" object for holding employee data
+    // Creates local "temporary" object for holding train data
     var newTrain = {
       trainName: empTrainName,
       destination: empRole,
@@ -74,13 +74,18 @@ var firebaseConfig = {
     console.log(empStart);
     console.log(empRate);
   
+
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+
     // Prettify the train start
-    var empStartPretty = moment.unix(empStart).format("MM/DD/YYYY");
+    var empStartPretty = moment.unix(empStart).format("HH:mm");
   
     // Calculate the months worked using hardcore math
     // To calculate the months worked
-    //var empMonths = moment().diff(moment(empStart, "X"), "months");
-    //console.log(empMonths);
+    var empAway = moment().diff(moment(empStart, "X"), "months");
+    console.log("Minutes Till Train: " + empAway);
   
     // Calculate the total billed rate
     //var empBilled = empMonths * empRate;
@@ -91,7 +96,7 @@ var firebaseConfig = {
       $("<td>").text(empTrainName),
       $("<td>").text(empRole),
       $("<td>").text(empStartPretty),
-      //$("<td>").text(empMonths),
+      $("<td>").text(empAway),
       $("<td>").text(empRate),
       //$("<td>").text(empBilled)
     );
